@@ -1,0 +1,11 @@
+<form action="/form" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <input type="submit" value="Submit" onClick="refresh_map()">
+</form>
+<script>
+    function refresh_map(){
+       window.parent.document.getElementById('map1').contentWindow.location.reload();
+    
+    }
+</script>

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Phyto-Risk{% endblock %}
+
+{% load static %}
+{%load plotly_dash%}
+
+{% block content %}
+
+<!-- Intro section   -->
+		<div class="intro-war1p">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-xl-6 col-lg-7 p-10">
+						<div class="intro-text">
+                          <a href=""><h2><b>Prevention Against Corona NC</b></h2></a>
+						</div>
+            			</div>
+            		</div>
+    		</div>
+		</div>
+		<iframe src="/django_plotly_dash/app/pacnc/" style="width:100%;height:100%" frameborder="0"></iframe>
+		
+
+	<!-- Intro section end  -->
+	
+	<!-- Footer section   -->
+
+	<!-- Footer section end  -->
+
+	<!-- Search model -->
+	
+	<!-- Search model end -->
+	
+	</script>
+	{% endblock  %}

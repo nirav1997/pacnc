@@ -17,7 +17,10 @@ dcc.Graph(figure=fig)
 app = DjangoDash('pacnc') 
 
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'confe/index.html')
+
+def risk(request):
+    return render(request, 'confe/risk.html')
 
 app.layout = html.Div([
         

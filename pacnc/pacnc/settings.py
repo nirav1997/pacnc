@@ -25,7 +25,7 @@ SECRET_KEY = '!#=9he-o^(+_d*f8htbqswr$$2xp1iwcl4w9d695zm#+e2sg_5'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['192.168.1.107']
 
 #Dash 
 X_FRAME_OPTIONS = 'SAMEORIGIN'

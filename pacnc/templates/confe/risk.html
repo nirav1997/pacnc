@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PAC NC</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700|Work+Sans:300,400,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/fonts/icomoon/style.css">
+
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/magnific-popup.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/jquery-ui.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/owl.theme.default.min.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/bootstrap-datepicker.css">
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/animate.css">
+    
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/mediaelementplayer.min.css">
+    
+    
+    
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/fonts/flaticon/font/flaticon.css">
+  
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/aos.css">
+
+    <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/style.css">
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&libraries=places"></script>
+    <script>
+        function initAutocomplete() {
+          var map = new google.maps.Map(document.getElementById('map'), {
+            center: {
+              lat: 48,
+              lng: 4
+            },
+            zoom: 4,
+            disableDefaultUI: false
+          });
+        
+          // Create the search box and link it to the UI element.
+          var input = document.getElementById('my-input-searchbox');
+          var autocomplete = new google.maps.places.Autocomplete(input);
+          map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+          var marker = new google.maps.Marker({
+            map: map
+          });
+          
+          
+        
+          // Bias the SearchBox results towards current map's viewport.
+          autocomplete.bindTo('bounds', map);
+          // Set the data fields to return when the user selects a place.
+          autocomplete.setFields(
+            ['address_components', 'geometry', 'name']);
+        
+          // Listen for the event fired when the user selects a prediction and retrieve
+          // more details for that place.
+          autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+            if (!place.geometry) {
+              console.log("Returned place contains no geometry");
+              return;
+            }
+            var bounds = new google.maps.LatLngBounds();
+            marker.setPosition(place.geometry.location);
+            alert(place.geometry.location)
+        		document.getElementById('foo1').innerHTML = place.name
+            if (place.geometry.viewport) {
+              // Only geocodes have viewport.
+              bounds.union(place.geometry.viewport);
+            } else {
+              bounds.extend(place.geometry.location);
+            }
+            map.fitBounds(bounds);
+        
+          
+          
+        var params = {
+            'api_key_private': 'pri_50990bf1f8828f6abbf6152013113c6b',
+            'venue_name': 'McDonalds',
+            'venue_address': 'Ocean Ave, San Fransisco'
+        }
+        console.log("hi");
+        $.ajax({
+        "url": "https://besttime.app/api/v1/forecasts/live?" + new URLSearchParams(params),
+        "method": "POST"
+        }).done(function (response) {
+            alert(response);
+        });
+          });
+        
+        }
+        
+        
+        document.addEventListener("DOMContentLoaded", function(event) {
+          initAutocomplete();
+        });
+    </script>
+    <script>
+        function addElement(parentId, elementTag, elementId, html) {
+                // Adds an element to the document
+                var p = document.getElementById(parentId);
+                var newElement = document.createElement(elementTag);
+                newElement.setAttribute('id', elementId);
+                newElement.innerHTML = html;
+                p.appendChild(newElement);
+             }  
+            
+            var fileId = 1; // used by the addFile() function to keep track of IDs
+            function addItenary() {
+                fileId++; // increment fileId to get a unique ID for the new element
+                var html = '<input type="search" placeholder="Destination" class="form-control mr-sm-2" name="iteneary"+fileId /> </br>';
+                            
+                addElement('iteneary', 'div', 'itenary-' + fileId, html);
+            }
+            
+        function removeItenary() {
+            // Removes an element from the document
+            elementId = 'itenary-'+fileId;
+            var element = document.getElementById(elementId);
+            element.parentNode.removeChild(element);
+            fileId--;
+        }
+    </script>
+  </head>
+  <body>
+  
+  <div class="site-wrap">
+
+    <div class="site-mobile-menu">
+      <div class="site-mobile-menu-header">
+        <div class="site-mobile-menu-close mt-3">
+          <span class="icon-close2 js-menu-toggle"></span>
+        </div>
+      </div>
+      <div class="site-mobile-menu-body"></div>
+    </div> <!-- .site-mobile-menu -->
+    
+    
+    <div class="site-navbar-wrap js-site-navbar bg-white">
+      <div id="map" style=" display:None;"></div>
+
+      <div class="container">
+        <div class="site-navbar bg-light">
+          <div class="py-1">
+            <div class="row align-items-center">
+              <div class="col-4">
+                <h2 class="mb-0 site-logo"><a href="index"><strong>PAC</strong>NC</a></h2>
+              </div>
+              <div class="col-8">
+                <nav class="site-navigation text-right" role="navigation">
+                  <div class="container">
+                    <!-- d-lg-none -->
+                    <div class="d-inline-block  ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a></div>
+                     <!-- d-lg-block -->
+                    <ul class="site-menu js-clone-nav d-none">
+                      <li class="active">
+                        <a href="index.html">Home</a>
+                      </li>
+                      <li><a href="speakers.html">Speakers</a></li>
+                      <li><a href="venue.html">Venue</a></li>
+                      <li><a href="sponsors.html">Sponsors</a></li>
+                      <li><a href="about.html">About</a></li>
+                      <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                  </div>
+                </nav>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    
+    
+      
+    <div class="site-blocks-cover overlay" style="background-image: url(https://i.ibb.co/MkH3Pny/1.jpg);" >
+      <div class="container">
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-10 text-center" data-aos="fade">
+           <h1 class="mb-4">Itinerary</h1>
+           <p class="btn btn-success btn-sm" onclick="addItenary();"> Add new destination </p>
+           <p class="btn btn-danger btn-sm" onclick="removeItenary();"> Remove destination </p>
+           <input type="search" placeholder="Add New Destination" class="form-control mr-sm-2" name="my-input-searchbox" id="itenary-1" /> </br>
+           <form id="iteneary">
+               <input type="search" placeholder="Destination" class="form-control mr-sm-2" name="iteneary1" id="itenary-1" /> </br>
+               
+           </form>
+           <input type="submit" class="btn btn-warning" value="Calculate Risk">
+          </div>
+          
+        </div>
+      </div>
+          </footer>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+            This template is made with <i class="icon-heart text-primary" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>
+            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+           </footer>
+      </div>
+    </div>  
+
+    
+    
+  </div>
+
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery-3.3.1.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery-migrate-3.0.1.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery-ui.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/popper.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/bootstrap.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/owl.carousel.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery.stellar.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery.countdown.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/jquery.magnific-popup.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/bootstrap-datepicker.min.js"></script>
+  <script src="https://colorlib.com/preview/theme/confe/js/aos.js"></script>
+
+  
+  <script src="https://colorlib.com/preview/theme/confe/js/mediaelement-and-player.min.js"></script>
+
+  <script src="https://colorlib.com/preview/theme/confe/js/main.js"></script>
+    
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+                var mediaElements = document.querySelectorAll('video, audio'), total = mediaElements.length;
+
+                for (var i = 0; i < total; i++) {
+                    new MediaElementPlayer(mediaElements[i], {
+                        pluginPath: 'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/',
+                        shimScriptAccess: 'always',
+                        success: function () {
+                            var target = document.body.querySelectorAll('.player'), targetTotal = target.length;
+                            for (var j = 0; j < targetTotal; j++) {
+                                target[j].style.visibility = 'visible';
+                            }
+                  }
+                });
+                }
+            });
+            
+         
+    </script>
+
+  </body>
+</html>

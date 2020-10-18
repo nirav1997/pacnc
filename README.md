@@ -1,10 +1,11 @@
 # pacnc
-
 <b>Prevention Against Coronavirus - North Carolina</b>
 
 This repository is part of our group's submission for [HackNC 2020](https://www.hacknc.com/).
 
 The purpose of this project is to help fight the surge of cases of COVID-19. By using this application, people can help reduce their possible exposure to the virus. By inputting a list of possible locations they need to visit, the application will not just give them a probability of their risk of exposure to the virus but also suggest some alternative route arrangements with even less exposure.
+
+[![PacNC YouTube Video](http://img.youtube.com/vi/PhX2_5YrEvU/0.jpg)](https://youtu.be/PhX2_5YrEvU)
 
 ## Use of Technology
 - Django

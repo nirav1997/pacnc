@@ -26,8 +26,41 @@
 
     <link rel="stylesheet" href="https://colorlib.com/preview/theme/confe/css/style.css">
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCkUOdZ5y7hMm0yrcCQoCvLwzdM6M8s5qk&libraries=places"></script>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCJadJ7WBFT2rxX7QTXXSye05BnO4OUmvY&libraries=places"></script>
     <script>
+        var storage = [];
+        
+        function addElement(parentId, elementTag, elementId, html) {
+                // Adds an element to the document
+                var p = document.getElementById(parentId);
+                var newElement = document.createElement(elementTag);
+                newElement.setAttribute('id', elementId);
+                newElement.innerHTML = html;
+                p.appendChild(newElement);
+             }  
+            
+            var fileId = 1; // used by the addFile() function to keep track of IDs
+            function addItenary(name) {
+                fileId++; // increment fileId to get a unique ID for the new element
+                
+                var html = ' <li class="list-group-item" id="itenary-'+name+'"> '+name+ 
+                            '<button type="button" class="close" aria-label="Close" onclick="removeItenary(this);" id="remove">' +
+                             ' <span aria-hidden="true">&times;</span>' +
+                            '</button></li>';
+                addElement('iteneary', 'div', 'itenary-' + fileId, html);
+            }
+            
+        function removeItenary(elem) {
+            // Removes an element from the document
+            //alert(elem.parentNode.id);
+            elementId = elem.parentNode.id;
+            var element = document.getElementById(elementId);
+            element.parentNode.removeChild(element);
+        }
+    </script>
+         
+    <script>
+        
         function initAutocomplete() {
           var map = new google.maps.Map(document.getElementById('map'), {
             center: {
@@ -39,7 +72,7 @@
           });
         
           // Create the search box and link it to the UI element.
-          var input = document.getElementById('my-input-searchbox');
+          var input = document.getElementById('itenary-1');
           var autocomplete = new google.maps.places.Autocomplete(input);
           map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
           var marker = new google.maps.Marker({
@@ -48,7 +81,7 @@
           
           
         
-          // Bias the SearchBox results towards current map's viewport.
+           // Bias the SearchBox results towards current map's viewport.
           autocomplete.bindTo('bounds', map);
           // Set the data fields to return when the user selects a place.
           autocomplete.setFields(
@@ -64,8 +97,12 @@
             }
             var bounds = new google.maps.LatLngBounds();
             marker.setPosition(place.geometry.location);
-            alert(place.geometry.location)
-        		document.getElementById('foo1').innerHTML = place.name
+            
+        		addItenary(place.name);
+        		document.getElementById('itenary-1').value='';
+        		var zipcode = place.address_components[Object.keys(place.address_components).length-1]['long_name'];
+        		storage.push([place.name+"zip"+zipcode]);
+        		document.cookie = storage.toString();
             if (place.geometry.viewport) {
               // Only geocodes have viewport.
               bounds.union(place.geometry.viewport);
@@ -81,13 +118,7 @@
             'venue_name': 'McDonalds',
             'venue_address': 'Ocean Ave, San Fransisco'
         }
-        console.log("hi");
-        $.ajax({
-        "url": "https://besttime.app/api/v1/forecasts/live?" + new URLSearchParams(params),
-        "method": "POST"
-        }).done(function (response) {
-            alert(response);
-        });
+        
           });
         
         }
@@ -97,32 +128,7 @@
           initAutocomplete();
         });
     </script>
-    <script>
-        function addElement(parentId, elementTag, elementId, html) {
-                // Adds an element to the document
-                var p = document.getElementById(parentId);
-                var newElement = document.createElement(elementTag);
-                newElement.setAttribute('id', elementId);
-                newElement.innerHTML = html;
-                p.appendChild(newElement);
-             }  
-            
-            var fileId = 1; // used by the addFile() function to keep track of IDs
-            function addItenary() {
-                fileId++; // increment fileId to get a unique ID for the new element
-                var html = '<input type="search" placeholder="Destination" class="form-control mr-sm-2" name="iteneary"+fileId /> </br>';
-                            
-                addElement('iteneary', 'div', 'itenary-' + fileId, html);
-            }
-            
-        function removeItenary() {
-            // Removes an element from the document
-            elementId = 'itenary-'+fileId;
-            var element = document.getElementById(elementId);
-            element.parentNode.removeChild(element);
-            fileId--;
-        }
-    </script>
+    
   </head>
   <body>
   
@@ -144,30 +150,12 @@
       <div class="container">
         <div class="site-navbar bg-light">
           <div class="py-1">
-            <div class="row align-items-center">
-              <div class="col-4">
-                <h2 class="mb-0 site-logo"><a href="index"><strong>PAC</strong>NC</a></h2>
+              <div class="col-1">
+                <h2 class="mb-0 site-logo" style="float:left"><a href="index"><strong>PAC</strong>NC</a></h2>
               </div>
               <div class="col-8">
-                <nav class="site-navigation text-right" role="navigation">
-                  <div class="container">
-                    <!-- d-lg-none -->
-                    <div class="d-inline-block  ml-md-0 mr-auto py-3"><a href="#" class="site-menu-toggle js-menu-toggle"><span class="icon-menu h3"></span></a></div>
-                     <!-- d-lg-block -->
-                    <ul class="site-menu js-clone-nav d-none">
-                      <li class="active">
-                        <a href="index.html">Home</a>
-                      </li>
-                      <li><a href="speakers.html">Speakers</a></li>
-                      <li><a href="venue.html">Venue</a></li>
-                      <li><a href="sponsors.html">Sponsors</a></li>
-                      <li><a href="about.html">About</a></li>
-                      <li><a href="contact.html">Contact</a></li>
-                    </ul>
-                  </div>
-                </nav>
               </div>
-            </div>
+              
           </div>
         </div>
       </div>
@@ -178,17 +166,18 @@
       
     <div class="site-blocks-cover overlay" style="background-image: url(https://i.ibb.co/MkH3Pny/1.jpg);" >
       <div class="container">
-        <div class="row align-items-center justify-content-center">
-          <div class="col-md-10 text-center" data-aos="fade">
+        <div class="row justify-content-start" >
+          <div class="col-md-10 text-center" data-aos="fade" style="margin-top:20%">
            <h1 class="mb-4">Itinerary</h1>
-           <p class="btn btn-success btn-sm" onclick="addItenary();"> Add new destination </p>
-           <p class="btn btn-danger btn-sm" onclick="removeItenary();"> Remove destination </p>
+           <p class="btn btn-danger btn-sm" onclick="removeItenary();"> - </p>
            <input type="search" placeholder="Add New Destination" class="form-control mr-sm-2" name="my-input-searchbox" id="itenary-1" /> </br>
-           <form id="iteneary">
-               <input type="search" placeholder="Destination" class="form-control mr-sm-2" name="iteneary1" id="itenary-1" /> </br>
-               
-           </form>
-           <input type="submit" class="btn btn-warning" value="Calculate Risk">
+           <center><div class="card" style="width: 18rem;">
+              <ul class="list-group list-group-flush"  id="iteneary">
+                
+              </ul>
+            </div></center>
+            </br>
+           <a href="submit" class="btn btn-warning" value="Calculate Risk">Calculate Risk</a>
           </div>
           
         </div>

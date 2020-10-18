@@ -36,12 +36,10 @@ def submit(request):
     
     items_with_zipcode = [item.split("zip") for item in items]
     
-    print(items_with_zipcode)
     zipcodes = [item[-1] for item in items_with_zipcode]
     zip_string = ",".join(zipcodes)
     url = 'http://34.72.27.12:5000/api/v1/risk_analysis?zipcode='+zip_string
     risk_results = requests.get(url)
-    print(risk_results.content)
     risk_results = json.loads(risk_results.content)
     
     risk = risk_results['risk']

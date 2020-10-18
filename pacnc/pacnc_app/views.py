@@ -12,6 +12,7 @@ import plotly.express as px
 
 from plotly.offline import plot
 import plotly.graph_objs as go
+import random
 
 df = px.data.iris() # iris is a pandas DataFrame
 fig = px.scatter(df, x="sepal_width", y="sepal_length")
@@ -36,7 +37,8 @@ def submit(request):
     print(items_with_zipcode)
     
     
-    risk_results = [0.5,0.4,0.3,0.2,0.8,0.7,0.6]
+    risk_results = [random.randint(30,100) for i in range(7)]
+    
     base = datetime.datetime.today()
     date_list = [(base - datetime.timedelta(days=x)).date() for x in range(7)]
     
@@ -61,7 +63,7 @@ def submit(request):
     fig.add_trace(line)
     plt_div = plot(fig,config=config, output_type='div')
     
-    return render(request, 'confe/ris_results.html',  context={'plot_div': plt_div})
+    return render(request, 'confe/ris_results.html',  context={'plot_div': plt_div, 'risk':risk_results[-1]})
     
 app.layout = html.Div([
         

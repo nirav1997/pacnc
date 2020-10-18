@@ -68,13 +68,15 @@
             <p class="regular-font-size">
             {% autoescape off %}
               {{ plot_div }}
-              {% endautoescape %}
+              
               </br>
-              <a href="risk" class="btn btn-primary px-4 py-3 text-uppercase">Know Your Risk</a>
+              <p class="btn btn-primary px-4 py-3 text-uppercase">Risk = {{ risk }}%</a>
+              {% endautoescape %}
             </p>
           </div>
         </div>
       </div>
+      
           </footer>
             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
             This template is made with <i class="icon-heart text-primary" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank" >Colorlib</a>

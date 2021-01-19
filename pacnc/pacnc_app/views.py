@@ -30,7 +30,9 @@ def risk(request):
     return render(request, 'confe/risk.html')
 
 def submit(request):
-    data = request.COOKIES['']
+    data = request.COOKIES
+   # print(data)
+    data =list(data.values())[-1]
     
     items = data.split(",")
     
